@@ -45,9 +45,4 @@ public class GatewayApplication {
                 .addRequestHeader("test", "test")
                 .addResponseHeader("key", "encrypted-key");
     }
-
-    @Bean
-    WebClient client() {
-        return WebClient.builder().build();
-    }
 }
