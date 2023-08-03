@@ -1,13 +1,13 @@
 package com.bsmm.user.controller;
 
 import com.bsmm.user.dto.UserDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -16,5 +16,11 @@ public class UserController {
         return ResponseEntity.ok(List.of(
                 new UserDTO(1l, "Bladimir", "Minga"),
                 new UserDTO(2l, "Matías", "Minga")));
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> create(@RequestBody UserDTO dto) {
+        log.info("User {}", dto);
+        return ResponseEntity.ok(dto);
     }
 }
