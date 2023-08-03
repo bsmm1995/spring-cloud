@@ -9,7 +9,6 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.GatewayFilterSpec;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @SpringBootApplication
@@ -31,8 +30,8 @@ public class GatewayApplication {
                         .uri("http://localhost:8082")).build();
     }
 
-    public GatewayFilterSpec setGatewayFilterSpec(GatewayFilterSpec f) {
-        return f.modifyRequestBody(EncryptedMessage.class, String.class, (exchange, originalRequest) -> {
+    public GatewayFilterSpec setGatewayFilterSpec(GatewayFilterSpec filter) {
+        return filter.modifyRequestBody(EncryptedMessage.class, String.class, (exchange, originalRequest) -> {
                     log.info("originalRequest {}", originalRequest);
                     return originalRequest != null ?
                             Mono.just(Convert.decode(originalRequest.getPayload())) : Mono.empty();
