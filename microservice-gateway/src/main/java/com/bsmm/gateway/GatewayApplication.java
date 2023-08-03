@@ -25,11 +25,13 @@ public class GatewayApplication {
                 .route("user", r -> r.path("/users/**")
                         .filters(f -> f.modifyRequestBody(EncryptedMessage.class, String.class, (exchange, originalRequest) -> {
                                     log.info("originalRequest {}", originalRequest);
-                                    return Mono.just(Convert.decode(originalRequest.getPayload()));
+                                    return originalRequest != null ?
+                                            Mono.just(Convert.decode(originalRequest.getPayload())) : Mono.empty();
                                 })
                                 .modifyResponseBody(String.class, EncryptedMessage.class, (exchange, originalResponse) -> {
                                     log.info("originalResponse {}", originalResponse);
-                                    return Mono.just(new EncryptedMessage(Convert.encode(originalResponse)));
+                                    return originalResponse != null ?
+                                            Mono.just(new EncryptedMessage(Convert.encode(originalResponse))) : Mono.empty();
                                 }))
                         .uri("http://localhost:8081"))
                 .route("account", r -> r.path("/accounts/**")
