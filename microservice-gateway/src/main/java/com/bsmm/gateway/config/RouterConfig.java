@@ -32,12 +32,12 @@ public class RouterConfig {
         return filter.modifyRequestBody(EncryptedMessage.class, String.class, (exchange, originalRequest) -> {
                     log.info("originalRequest {}", originalRequest);
                     return originalRequest != null ?
-                            Mono.just(JWEUtil.decrypt(originalRequest.getData(), config.getPrivateKey())) : Mono.empty();
+                            Mono.just(JWEUtil.decrypt(originalRequest.getData(), config.getStrPrivateKey())) : Mono.empty();
                 })
                 .modifyResponseBody(String.class, EncryptedMessage.class, (exchange, originalResponse) -> {
                     log.info("originalResponse {}", originalResponse);
                     return originalResponse != null ?
-                            Mono.just(new EncryptedMessage(JWEUtil.encrypt(originalResponse, config.getPublicKey()))) : Mono.empty();
+                            Mono.just(new EncryptedMessage(JWEUtil.encrypt(originalResponse, config.getStrPublicKey()))) : Mono.empty();
                 })
                 .addRequestHeader("test", "test")
                 .addResponseHeader("key", "encrypted-key");
