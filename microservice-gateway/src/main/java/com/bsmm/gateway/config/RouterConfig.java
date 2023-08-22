@@ -1,6 +1,6 @@
 package com.bsmm.gateway.config;
 
-import com.bsmm.gateway.dto.EncryptedMessage;
+import com.bsmm.gateway.EncryptedMessage;
 import com.bsmm.gateway.util.JWEUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

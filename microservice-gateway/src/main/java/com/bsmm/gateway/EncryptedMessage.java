@@ -1,4 +1,4 @@
-package com.bsmm.gateway.dto;
+package com.bsmm.gateway;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
