@@ -19,27 +19,20 @@ public class RouterConfig {
 
     @Bean
     public RouteLocator routerBuilder(RouteLocatorBuilder routeLocatorBuilder) {
-        return routeLocatorBuilder.routes()
-                .route("user", r -> r.path("/users/**")
-                        .filters(this::setGatewayFilterSpec)
-                        .uri("http://localhost:8081"))
-                .route("account", r -> r.path("/accounts/**")
-                        .filters(this::setGatewayFilterSpec)
-                        .uri("http://localhost:8082")).build();
+        return routeLocatorBuilder.routes().route("user", r -> r.path("/users/**").filters(this::setGatewayFilterSpec).uri("http://localhost:8081")).route("account", r -> r.path("/accounts/**").filters(this::setGatewayFilterSpec).uri("http://localhost:8082")).build();
     }
 
     public GatewayFilterSpec setGatewayFilterSpec(GatewayFilterSpec filter) {
         return filter.modifyRequestBody(EncryptedMessage.class, String.class, (exchange, originalRequest) -> {
-                    log.info("originalRequest {}", originalRequest);
-                    return originalRequest != null ?
-                            Mono.just(JWEUtil.decrypt(originalRequest.getData(), config.getPrivateKey())) : Mono.empty();
-                })
-                .modifyResponseBody(String.class, EncryptedMessage.class, (exchange, originalResponse) -> {
-                    log.info("originalResponse {}", originalResponse);
-                    return originalResponse != null ?
-                            Mono.just(new EncryptedMessage(JWEUtil.encrypt(originalResponse, config.getClientPublicKey()))) : Mono.empty();
-                })
-                .addRequestHeader("test", "test")
-                .addResponseHeader("key", "encrypted-key");
+            log.info("originalRequest {}", originalRequest);
+            return originalRequest != null ? Mono.just(JWEUtil.decrypt(originalRequest.getData(), config.getPrivateKey())) : Mono.empty();
+        }).modifyResponseBody(String.class, EncryptedMessage.class, (exchange, originalResponse) -> {
+            log.info("originalResponse {}", originalResponse);
+            String publicKey = exchange.getRequest().getHeaders().getFirst("key");
+            if (publicKey == null || publicKey.isBlank()) {
+                return Mono.error(new Throwable());
+            }
+            return originalResponse != null ? Mono.just(new EncryptedMessage(JWEUtil.encrypt(originalResponse, publicKey))) : Mono.empty();
+        }).addRequestHeader("test", "test").addResponseHeader("key", "encrypted-key");
     }
 }
