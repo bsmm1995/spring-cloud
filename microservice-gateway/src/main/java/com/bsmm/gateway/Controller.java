@@ -20,6 +20,6 @@ public class Controller {
     @GetMapping("/public")
     @ResponseStatus(HttpStatus.OK)
     public Mono<Object> getAllBooks() {
-        return Mono.just(Map.of("key", config.getStrPublicKey().getEncoded()));
+        return Mono.just(Map.of("key", config.getPublicKey()));
     }
 }
