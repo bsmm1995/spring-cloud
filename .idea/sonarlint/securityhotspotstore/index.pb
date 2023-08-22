@@ -7,3 +7,5 @@ N
 microservice-user/build.gradle,0\4\045d86b1d11986b4bfcf951f4958741270984e8e
 o
 ?microservice-function/src/main/resources/application.properties,b\e\be726c30dad7911430cd929d021ab3c0227bfd1b
+Q
+!microservice-account/build.gradle,f\2\f241a8a6e06b138e08bdf3d0400a0d282f960712

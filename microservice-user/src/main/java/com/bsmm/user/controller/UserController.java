@@ -11,11 +11,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(new UserDTO(id, "Bladimir", "Minga"));
+    }
+
     @GetMapping
     public ResponseEntity<Object> getAll() {
-        return ResponseEntity.ok(List.of(
-                new UserDTO(1l, "Bladimir", "Minga"),
-                new UserDTO(2l, "Matías", "Minga")));
+        return ResponseEntity.ok(List.of(new UserDTO(1l, "Bladimir", "Minga"), new UserDTO(2l, "Matías", "Minga")));
     }
 
     @PostMapping
