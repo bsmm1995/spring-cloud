@@ -9,3 +9,5 @@ o
 ?microservice-function/src/main/resources/application.properties,b\e\be726c30dad7911430cd929d021ab3c0227bfd1b
 Q
 !microservice-account/build.gradle,f\2\f241a8a6e06b138e08bdf3d0400a0d282f960712
+\
+,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
