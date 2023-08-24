@@ -5,13 +5,13 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.security.interfaces.RSAPrivateKey;
+import java.security.PrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
 @Component
 public class EncryptionConfig {
-    private final RSAPrivateKey rsaPrivateKey;
+    private final PrivateKey rsaPrivateKey;
     private final String strPublicKey;
 
     @SneakyThrows
@@ -19,11 +19,11 @@ public class EncryptionConfig {
                             @Value("${encryption.keys.public}") String strPublicKey) {
         this.strPublicKey = strPublicKey;
         PKCS8EncodedKeySpec keySpecPKCS8 = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(strPrivateKey));
-        rsaPrivateKey = (RSAPrivateKey) JWEUtil.geyKeyFactory().generatePrivate(keySpecPKCS8);
+        rsaPrivateKey = JWEUtil.geyKeyFactory().generatePrivate(keySpecPKCS8);
     }
 
 
-    public RSAPrivateKey getPrivateKey() {
+    public PrivateKey getPrivateKey() {
         return rsaPrivateKey;
     }
 
