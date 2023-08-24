@@ -23,6 +23,7 @@ public class GatewayApplication {
         corsConfig.setMaxAge(3600L);
         corsConfig.addAllowedMethod("*");
         corsConfig.addAllowedHeader("key");
+        corsConfig.addAllowedHeader("Content-Type");
         corsConfig.addExposedHeader("key");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
